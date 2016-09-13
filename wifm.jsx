@@ -20,7 +20,10 @@ var ItemList = React.createClass({
     }, this);
     return (
       <div>
-        <HeaderRow data={data} filterClickHandler={this.props.filterClickHandler} allClickHandler={this.props.allClickHandler}/>
+        <HeaderRow  data={data}
+                    filterClickHandler={this.props.filterClickHandler}
+                    searchClickHandler={this.props.searchClickHandler}
+                    allClickHandler={this.props.allClickHandler}/>
         <div className="row centered">
           {commentNodes}
         </div>
@@ -98,8 +101,12 @@ showAllItems: function(){
   render: function() {
     return (
       <div>
-        <a href="#"><h4 onClick={this.props.allClickHandler}>All({this.props.data.length})</h4></a>
-        <a href="#"><h4 onClick={this.props.filterClickHandler}>Discounted({this.getDiscounted()})</h4></a>
+        <a href="#"><div onClick={this.props.allClickHandler}>All ({this.props.data.length})</div></a>
+        <a href="#"><div onClick={this.props.filterClickHandler}>Discounted ({this.getDiscounted()})</div></a>
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
+          <button type="submit" className="btn btn-default" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
+          </div>
       </div>
     );
   }
@@ -122,10 +129,17 @@ var ItemContainer = React.createClass({
     this.setState({data: newData});
   },
 
-  filterHandler: function(){
-    console.log("filterHandler")
+  filterDiscountedHandler: function(){
     var newData = this.state.data.filter(function(item){
       return item.initialPrice - item.price > 0
+    });
+    this.setState({data: newData});
+  },
+
+  searchClickHandler: function(searchString){
+    var newData = this.props.data.filter(function(item){
+      return  item.description.toUpperCase().includes(searchString.toUpperCase()) ||
+              item.vendor.toUpperCase().includes(searchString.toUpperCase())
     });
     console.log("newData:", newData)
     this.setState({data: newData});
@@ -141,7 +155,11 @@ var ItemContainer = React.createClass({
     return (
       <div>
         <h1>Your Watched Items</h1>
-        <ItemList data={this.state.data} clickHandler={this.handleClick} filterClickHandler={this.filterHandler} allClickHandler={this.showAllItems}/>
+        <ItemList data={this.state.data}
+                  clickHandler={this.handleClick}
+                  filterClickHandler={this.filterDiscountedHandler}
+                  searchClickHandler={this.searchClickHandler}
+                  allClickHandler={this.showAllItems} />
       </div>
     );
   },
