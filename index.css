@@ -1,0 +1,28 @@
+.product-image {
+	max-height: 120px;
+	max-width: 120px;
+}
+body {
+  background-color: lightgrey;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.item-container {
+  padding: 20px;
+
+}
+.item {
+  border-radius: 10px;
+  background-color: white;
+  padding: 14px;
+}
+.centered {
+  text-align: center;
+}
+.bordered {
+  border: 1px solid grey;
+}
+
+.description {
+  height: 110px;
+}
