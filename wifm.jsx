@@ -20,9 +20,10 @@ var ItemList = React.createClass({
     }, this);
     return (
       <div>
-        <HeaderRow  data={data}
+        <HeaderRow  data={this.props.data}
                     filterClickHandler={this.props.filterClickHandler}
                     searchClickHandler={this.props.searchClickHandler}
+                    filterVendorHandler={this.props.filterVendorHandler}
                     allClickHandler={this.props.allClickHandler}/>
         <div className="row centered">
           {commentNodes}
@@ -88,21 +89,47 @@ var Item = React.createClass({
 
 
 var HeaderRow = React.createClass({
+
+  getInitialState: function(){
+    return {data: this.props.data}
+  },
+
   getDiscounted: function(){
     var discountedItems = this.props.data.filter(function(item) {
       return item.price < item.initialPrice
     })
     return discountedItems.length;
   },
-showAllItems: function(){
-  console.log("plops");
-  console.log(this.props.allClickHandler)
-},
+
+  showAllItems: function(){
+    console.log("plops");
+    console.log(this.props.allClickHandler)
+  },
+
+  getDistinctVendors: function(){
+    var vendors = []
+    vendors = this.props.data.map(function(item){
+        if(!vendors.includes(item.vendor)){
+          return item.vendor;
+        }
+    })
+
+    return vendors.sort()
+
+  },
+
   render: function() {
+    console.log("HeaderRow render()", this.props.data, this.state.data)
     return (
       <div>
-        <a href="#"><div onClick={this.props.allClickHandler}>All ({this.props.data.length})</div></a>
+        <a href="#"><div onClick={this.props.allClickHandler}>All ({this.state.data.length})</div></a>
         <a href="#"><div onClick={this.props.filterClickHandler}>Discounted ({this.getDiscounted()})</div></a>
+        {this.getDistinctVendors().map(function(vendor, index){
+            return(
+              <a href="#" key={index} onClick={() => {this.props.filterVendorHandler(vendor)}}>{vendor}</a>
+            )
+         },this)
+        }
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
           <button type="submit" className="btn btn-default" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
@@ -117,7 +144,18 @@ var ItemContainer = React.createClass({
     $(function() {
         $('.item').matchHeight();
     });
+
+    var vendors = []
+    vendors = this.state.data.map(function(item){
+        if(!vendors.includes(item.vendor)){
+          return item.vendor;
+        }
+    })
+
+    console.log(vendors)
+
   },
+
   handleClick: function(id){
     var newData = this.state.data;
 
@@ -127,6 +165,14 @@ var ItemContainer = React.createClass({
         }
     }
     this.setState({data: newData});
+  },
+
+  filterVendorHandler: function(vendor){
+    var newData = this.state.data.filter(function(item){
+      return vendor == item.vendor
+    });
+    this.setState({data: newData});
+    console.log("vendor (" +vendor+ ") filtered data: ", newData.length, this.state.data.length)
   },
 
   filterDiscountedHandler: function(){
@@ -146,9 +192,9 @@ var ItemContainer = React.createClass({
   },
 
   showAllItems: function(){
-    console.log("showAllItems");
     this.setState({data: this.props.data})
   },
+
   render: function() {
     console.log("ItemContainer.render()")
 
@@ -158,6 +204,7 @@ var ItemContainer = React.createClass({
         <ItemList data={this.state.data}
                   clickHandler={this.handleClick}
                   filterClickHandler={this.filterDiscountedHandler}
+                  filterVendorHandler={this.filterVendorHandler}
                   searchClickHandler={this.searchClickHandler}
                   allClickHandler={this.showAllItems} />
       </div>
