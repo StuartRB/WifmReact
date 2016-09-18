@@ -50,12 +50,15 @@ var Item = React.createClass({
                 </td>
               </tr>
               <tr>
-                <td colSpan="3" className="description"><a href={this.props.url}><h3>{this.props.description}</h3></a></td>
+                <td colSpan="3" className="description"><a href={this.props.url}><h3 className="pull-left">{this.props.description}</h3></a></td>
               </tr>
               <tr>
-                <td colSpan="3"><h4>from {this.props.vendor}</h4></td>
+                <td colSpan="3"><h4 className="pull-left">from {this.props.vendor}</h4></td>
               </tr>
-              <tr>
+              <tr className="topBorderedRow">
+                <td colSpan="3">&nbsp;</td>
+              </tr>
+              <tr >
                 <td>Was £{this.props.initialPrice}</td>
                 <td>Now £{this.props.price}</td>
                 <td>Saving £{(this.props.initialPrice-this.props.price).toFixed(2)}</td>
@@ -64,18 +67,25 @@ var Item = React.createClass({
                 <td colSpan="3">&nbsp;</td>
               </tr>
               <tr>
+              <td>
+                <button type="button" id="btnDelete" className="btn btn-lg btn-danger" onClick={() => this.props.clickHandler(this.props.id)}>
+                  <span className="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                </button>
+              </td>
+
+
                 <td>
-                  <button type="button" id="btnBuy" className="btn btn-primary">
+                <button type="button" id="btnMoreInfo" className="btn btn-lg btn-success">
+                  <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span> More Info
+                </button>
+                </td>
+
+                <td>
+                  <button type="button" id="btnBuy" className="btn btn-lg btn-primary">
                     <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Buy
                   </button>
                 </td>
-                <td>
-                </td>
-                <td>
-                  <button type="button" id="btnDelete" className="btn btn-danger" onClick={() => this.props.clickHandler(this.props.id)}>
-                    <span className="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
-                  </button>
-                </td>
+
               </tr>
             </tbody>
           </table>
@@ -122,18 +132,22 @@ var HeaderRow = React.createClass({
     console.log("HeaderRow render()", this.props.data, this.state.data)
     return (
       <div>
-        <a href="#"><div onClick={this.props.allClickHandler}>All ({this.state.data.length})</div></a>
-        <a href="#"><div onClick={this.props.filterClickHandler}>Discounted ({this.getDiscounted()})</div></a>
-        {this.getDistinctVendors().map(function(vendor, index){
-            return(
-              <a href="#" key={index} onClick={() => {this.props.filterVendorHandler(vendor)}}>{vendor}</a>
-            )
-         },this)
-        }
-          <div className="form-group">
-            <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
-          <button type="submit" className="btn btn-default" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
-          </div>
+        <div className="row">
+          <a href="#"><div className="col-md-1" onClick={this.props.allClickHandler}>All ({this.state.data.length})</div></a>
+          <a href="#"><div className="col-md-2" onClick={this.props.filterClickHandler}>Discounted ({this.getDiscounted()})</div></a>
+        </div>
+        <div className="row">
+          {this.getDistinctVendors().map(function(vendor, index){
+              return(
+                <a href="#" key={index} onClick={() => {this.props.filterVendorHandler(vendor)}}>{vendor} | </a>
+              )
+           },this)
+          }
+            <div className="form-group form-inline">
+              <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
+              <button type="submit" className="btn btn-default form-control" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
+            </div>
+        </div>
       </div>
     );
   }
@@ -142,6 +156,7 @@ var HeaderRow = React.createClass({
 var ItemContainer = React.createClass({
   componentDidMount: function() {
     $(function() {
+
         $('.item').matchHeight();
     });
 

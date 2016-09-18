@@ -12,9 +12,10 @@ body {
 
 }
 .item {
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: white;
   padding: 14px;
+	box-shadow: 0 4px 2px -2px gray;
 }
 .centered {
   text-align: center;
@@ -25,4 +26,17 @@ body {
 
 .description {
   height: 110px;
+}
+
+.topBorderedRow {
+  border-top: 1px solid darkgrey;
+}
+
+.btn {
+  border: 1px solid darkgrey;
+  border-radius: 0;
+  background-color: white;
+  color: black;
+  margin: 0;
+  width: 100%;
 }
