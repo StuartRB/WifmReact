@@ -3,7 +3,7 @@ var ItemList = React.createClass({
     return {data: this.props.data}
   },
   render: function() {
-    console.log("ItemList.render()", this.props.data)
+    //console.log("ItemList.render()", this.props.data)
     if (this.props.data.length > 0){
     var commentNodes = this.props.data.map(function(item) {
       return (
@@ -39,10 +39,12 @@ var ItemList = React.createClass({
 
 var Item = React.createClass({
   render: function() {
-    return (
-      <div className="item-container col-md-4 col-sm-12">
-        <div className="centered bordered item">
 
+    var description = this.props.description.length < 30 ? this.props.description : this.props.description.substr(0,30) + " ...";
+
+    return (
+      <div className="col-md-4 col-sm-12">
+        <div className="centered bordered item">
           <table width="100%">
             <tbody>
               <tr>
@@ -50,10 +52,10 @@ var Item = React.createClass({
                 </td>
               </tr>
               <tr>
-                <td colSpan="3" className="description"><a href={this.props.url}><h3 className="pull-left">{this.props.description}</h3></a></td>
+                <td colSpan="3" className="description"><a href={this.props.url}><h4 className="pull-left">{description}</h4></a></td>
               </tr>
               <tr>
-                <td colSpan="3"><h4 className="pull-left">from {this.props.vendor}</h4></td>
+                <td colSpan="3"><h5 className="pull-left">from {this.props.vendor}</h5></td>
               </tr>
               <tr className="topBorderedRow">
                 <td colSpan="3">&nbsp;</td>
@@ -129,7 +131,7 @@ var HeaderRow = React.createClass({
   },
 
   render: function() {
-    console.log("HeaderRow render()", this.props.data, this.state.data)
+    //console.log("HeaderRow render()", this.props.data, this.state.data)
     return (
       <div>
         <div className="row">
@@ -155,10 +157,10 @@ var HeaderRow = React.createClass({
 
 var ItemContainer = React.createClass({
   componentDidMount: function() {
-    $(function() {
-
-        $('.item').matchHeight();
-    });
+    // $(function() {
+    //
+    //     //$('.item').matchHeight();
+    // });
 
     var vendors = []
     vendors = this.state.data.map(function(item){
@@ -167,7 +169,7 @@ var ItemContainer = React.createClass({
         }
     })
 
-    console.log(vendors)
+    //console.log(vendors)
 
   },
 
@@ -187,7 +189,7 @@ var ItemContainer = React.createClass({
       return vendor == item.vendor
     });
     this.setState({data: newData});
-    console.log("vendor (" +vendor+ ") filtered data: ", newData.length, this.state.data.length)
+    //console.log("vendor (" +vendor+ ") filtered data: ", newData.length, this.state.data.length)
   },
 
   filterDiscountedHandler: function(){
@@ -202,7 +204,7 @@ var ItemContainer = React.createClass({
       return  item.description.toUpperCase().includes(searchString.toUpperCase()) ||
               item.vendor.toUpperCase().includes(searchString.toUpperCase())
     });
-    console.log("newData:", newData)
+    //console.log("newData:", newData)
     this.setState({data: newData});
   },
 
@@ -211,10 +213,10 @@ var ItemContainer = React.createClass({
   },
 
   render: function() {
-    console.log("ItemContainer.render()")
+    //console.log("ItemContainer.render()")
 
     return (
-      <div>
+      <div className="item-container">
         <h1>Your Watched Items</h1>
         <ItemList data={this.state.data}
                   clickHandler={this.handleClick}
@@ -227,7 +229,7 @@ var ItemContainer = React.createClass({
   },
 
   getInitialState: function(){
-    console.log("getInitialState")
+    //console.log("getInitialState")
     return {data: this.props.data, filteredData: this.props.data}
   }
 });

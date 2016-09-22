@@ -1,20 +1,32 @@
 .product-image {
-	max-height: 120px;
+	height: 120px;
 	max-width: 120px;
 }
+
+h4 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: black;
+}
+
+h4:hover{
+	color: grey;
+}
+
 body {
   background-color: lightgrey;
   padding-left: 5%;
   padding-right: 5%;
 }
 .item-container {
-  padding: 20px;
+  padding: 10px;
 
 }
 .item {
   border-radius: 20px;
   background-color: white;
-  padding: 14px;
+  padding: 10px;
+	margin: 20px;
 	box-shadow: 0 4px 2px -2px gray;
 }
 .centered {
@@ -25,7 +37,7 @@ body {
 }
 
 .description {
-  height: 110px;
+  /*height: 110px;*/
 }
 
 .topBorderedRow {
