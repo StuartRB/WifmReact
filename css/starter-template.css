@@ -1,0 +1,24 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;*/
+  text-align: center;
+}
+
+.awesome_wood {
+  background: url('../images/wood.jpg') no-repeat center center fixed;
+  width: 100%;
+  height: 400px;
+
+}
+
+.container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.search_control {
+  padding: 100px 100px 100px 100px;
+}

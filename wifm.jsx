@@ -43,55 +43,55 @@ var Item = React.createClass({
     var description = this.props.description.length < 30 ? this.props.description : this.props.description.substr(0,30) + " ...";
 
     return (
-      <div className="col-md-4 col-sm-12">
-        <div className="centered bordered item">
-          <table width="100%">
-            <tbody>
-              <tr>
-                <td colSpan="3"><a href={this.props.url}><img src={this.props.imgUrl} className="product-image"/></a>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="3" className="description"><a href={this.props.url}><h4 className="pull-left">{description}</h4></a></td>
-              </tr>
-              <tr>
-                <td colSpan="3"><h5 className="pull-left">from {this.props.vendor}</h5></td>
-              </tr>
-              <tr className="topBorderedRow">
-                <td colSpan="3">&nbsp;</td>
-              </tr>
-              <tr >
-                <td>Was £{this.props.initialPrice}</td>
-                <td>Now £{this.props.price}</td>
-                <td>Saving £{(this.props.initialPrice-this.props.price).toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan="3">&nbsp;</td>
-              </tr>
-              <tr>
-              <td>
-                <button type="button" id="btnDelete" className="btn btn-lg btn-danger" onClick={() => this.props.clickHandler(this.props.id)}>
-                  <span className="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
-                </button>
-              </td>
+      <div>
+        <div className="col-md-4 col-sm-12">
+          <div className="centered bordered item">
+            <div className="container-fluid">
 
+              <div className="row">
+                <div className="col-md-12"><a href={this.props.url}><img src={this.props.imgUrl} className="product-image"/></a></div>
+              </div>
+              <div className="row">
+                <div className="col-md-12"><a href={this.props.url}><h4 className="pull-left">{description}</h4></a></div>
+              </div>
+              <div className="row">
+                <div className="col-md-12"><h5 className="pull-left">from {this.props.vendor}</h5></div>
+              </div>
 
-                <td>
-                <button type="button" id="btnMoreInfo" className="btn btn-lg btn-success">
-                  <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span> More Info
-                </button>
-                </td>
+              <div className="row">
+                <div className="col-md-4">
+                  <div><h5>Was</h5></div>
+                  <div><h4>£{this.props.initialPrice}</h4></div>
+                </div>
+                <div className="col-md-4">
+                  <div><h5>Now</h5></div>
+                  <div><h4>£{this.props.price}</h4></div>
+                </div>
+                <div className="col-md-4">
+                  <div><h5>Saving</h5></div>
+                  <div><h4>£{(this.props.initialPrice-this.props.price).toFixed(2)}</h4></div>
+                </div>
+              </div>
 
-                <td>
-                  <button type="button" id="btnBuy" className="btn btn-lg btn-primary">
+                <div className="col-md-4 col-sm-12">
+                  <button type="button" id="btnDelete" className="btn btn-danger" onClick={() => this.props.clickHandler(this.props.id)}>
+                    <span className="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                  </button>
+                </div>
+                <div className="col-md-4 col-sm-12">
+                  <button type="button" id="btnMoreInfo" className="btn btn-success">
+                    <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info
+                  </button>
+                </div>
+                <div className="col-md-4 col-sm-12">
+                  <button type="button" id="btnBuy" className="btn btn-primary">
                     <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Buy
                   </button>
-                </td>
+                </div>
 
-              </tr>
-            </tbody>
-          </table>
 
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -135,20 +135,27 @@ var HeaderRow = React.createClass({
     return (
       <div>
         <div className="row">
+          <span className="col-md-1">Show</span>
           <a href="#"><div className="col-md-1" onClick={this.props.allClickHandler}>All ({this.state.data.length})</div></a>
           <a href="#"><div className="col-md-2" onClick={this.props.filterClickHandler}>Discounted ({this.getDiscounted()})</div></a>
         </div>
         <div className="row">
+          <span className="col-md-1">Filter</span>
           {this.getDistinctVendors().map(function(vendor, index){
               return(
                 <a href="#" key={index} onClick={() => {this.props.filterVendorHandler(vendor)}}>{vendor} | </a>
               )
            },this)
           }
-            <div className="form-group form-inline">
-              <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
-              <button type="submit" className="btn btn-default form-control" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
-            </div>
+        </div>
+        <div className="row">
+          <span className="col-md-1">Sort</span>
+        </div>
+        <div>
+          <div className="form-group form-inline">
+                <input type="text" className="form-control" placeholder="Search" id="txtSearchFilter"/>
+                <button type="submit" className="btn btn-default form-control" onClick={() => this.props.searchClickHandler(document.getElementById('txtSearchFilter').value)}><span className="glyphicon glyphicon-search"></span></button>
+          </div>
         </div>
       </div>
     );
@@ -157,10 +164,6 @@ var HeaderRow = React.createClass({
 
 var ItemContainer = React.createClass({
   componentDidMount: function() {
-    // $(function() {
-    //
-    //     //$('.item').matchHeight();
-    // });
 
     var vendors = []
     vendors = this.state.data.map(function(item){
@@ -168,9 +171,6 @@ var ItemContainer = React.createClass({
           return item.vendor;
         }
     })
-
-    //console.log(vendors)
-
   },
 
   handleClick: function(id){
